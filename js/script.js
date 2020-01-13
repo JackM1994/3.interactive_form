@@ -42,7 +42,7 @@ function theme (){
     const option = document.createElement('option');
     option.text = 'Please Select a T-shirt theme ';
     colors.add(option, 0);
-
+    design.addEventListener('change', function(){
     if(design.value === design.value){
         colors.value = option.text;
         colors[1].style.display='none';
@@ -52,8 +52,9 @@ function theme (){
         colors[5].style.display ='none';
         colors[6].style.display ='none';
     }
-    design.addEventListener('change', function(){
+  
      if(design.value === 'js puns'){
+         colors.value = colors[1].value;
         colors[0].style.display ='none';
         colors[1].style.display ='block';
         colors[2].style.display ='block';
@@ -63,10 +64,11 @@ function theme (){
         colors[6].style.display ='none';
 
         }
-    });
-
-    design.addEventListener('change', function(){
+        console.log(colors.value);
+    
+    
         if(design.value === 'heart js'){
+            colors.value = colors[4].value;
             colors[0].style.display ='none';
             colors[4].style.display ='block';
             colors[5].style.display ='block';
@@ -75,6 +77,7 @@ function theme (){
             colors[2].style.display ='none';
             colors[3].style.display ='none';
         }
+
     });
 
     
@@ -325,7 +328,7 @@ x.addEventListener('submit', function(e){
             cvv.focus();
         }
         else{
-            cvvReg.style.display ='none';
+            spanCVV.style.display ='none';
         }
     }
     //call validateCVV function
@@ -335,5 +338,12 @@ x.addEventListener('submit', function(e){
 console.log(x);
 console.log(ccNum);
 //reset form after submission 
-x.reset();
+
+
+x.addEventListener('submit', function(e){
+    x.reset();
+
+});
+
+
 
