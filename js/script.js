@@ -39,23 +39,28 @@ jobRole.addEventListener('change', function()  {
 
 //Select a design for t-shirt to categorize color
 function theme (){
+    
     const option = document.createElement('option');
-    option.text = 'Please Select a T-shirt theme ';
-    colors.add(option, 0);
+    option.value = 'select';
+    option.innerHTML = `Please Select a T-Shirt Desgin`;
+    colors.prepend(option);
+    colors.selectedIndex = option.value;
+    colors[1].style.display='none';
+    colors[2].style.display ='none';
+    colors[3].style.display ='none';
+    colors[4].style.display ='none';
+    colors[5].style.display ='none';
+    colors[6].style.display ='none';
+    console.log(colors.value);
+    console.log(colors.selectedIndex);
+    console.log(design.value)
+    
+   
     design.addEventListener('change', function(){
-    if(design.value === design.value){
-        colors.value = option.text;
-        colors[1].style.display='none';
-        colors[2].style.display ='none';
-        colors[3].style.display ='none';
-        colors[4].style.display ='none';
-        colors[5].style.display ='none';
-        colors[6].style.display ='none';
-    }
-  
+        
      if(design.value === 'js puns'){
          colors.value = colors[1].value;
-        colors[0].style.display ='none';
+        
         colors[1].style.display ='block';
         colors[2].style.display ='block';
         colors[3].style.display ='block';
@@ -64,12 +69,10 @@ function theme (){
         colors[6].style.display ='none';
 
         }
-        console.log(colors.value);
-    
     
         if(design.value === 'heart js'){
-            colors.value = colors[4].value;
-            colors[0].style.display ='none';
+           colors.value = colors[4].value;
+      
             colors[4].style.display ='block';
             colors[5].style.display ='block';
             colors[6].style.display ='block';
@@ -77,9 +80,22 @@ function theme (){
             colors[2].style.display ='none';
             colors[3].style.display ='none';
         }
-
+        else{
+          if(design.value != 'js puns' && design.value !='heart js'){
+          colors.value = colors[0].value;    
+          colors[0].style.display ='block';
+          colors[1].style.display='none';
+          colors[2].style.display ='none';
+          colors[3].style.display ='none';
+          colors[4].style.display ='none';
+          colors[5].style.display ='none';
+          colors[6].style.display ='none';
+          }
+        
+        }
+    
     });
-
+   
     
 }
 //call theme function to seperate theme colors
@@ -173,7 +189,7 @@ pay.addEventListener('change', function(){
         bitCoin.style.display ='none';
     }
 });
-console.log(pay.value);
+
 
 
 //form validation creating span tags to show errors
@@ -184,6 +200,7 @@ spanName.classList = 'validate';
 spanName.innerHTML ='Please enter a valid Name';
 spanName.style.color ='red';
 spanName.style.display ='none';
+nameInput.appendChild(spanName);
 
 //Email Error tag
 const spanMail = document.createElement('span');
@@ -191,6 +208,7 @@ spanMail.classList ='validate';
 spanMail.innerHTML = 'Please enter a valid Email';
 spanMail.style.color ='red';
 spanMail.style.display ='none';
+
 
 //Reg Error tag
 const spanReg = document.createElement('span');
@@ -220,28 +238,31 @@ spanCVV.innerHTML = 'Please enter a valid CVV';
 spanCVV.style.color ='red';
 spanCVV.style.display ='none';
 
+
 //use an event listener to see if form is valid after submit
+
 let x = document.querySelector('form');
 
 //name validation
 x.addEventListener('submit', function(e) {
     
         e.preventDefault();
-    
+    function validateName(nameInput){
     if(nameInput.value =="" ){   
         nameInput.after(spanName);
         spanName.style.display = 'block';
         nameInput.focus();
-        return false;
+        
          }
          else{
             spanName.style.display ='none';
-             return true;
+             
          }
     
 
-});
-x.addEventListener('submit', function(e){
+    }
+    validateName(nameInput);
+
     e.preventDefault();
    //email validation
    
@@ -252,42 +273,44 @@ x.addEventListener('submit', function(e){
     email.after(spanMail);
     spanMail.style.display ='block';
     email.focus();
-    return false;
+    
        
    }
     else {
         
         spanMail.style.display ='none';
       
-       return true;
+       
    }
 } 
 validateEmail(email);
-});
+
 
 //activity validation
-x.addEventListener('submit', function(e){
+    function validateActivity(checkboxes){
     e.preventDefault();
-
+ 
     for(let i=0; i<checkboxes.length; i++){
-   
-        if(e.checked == false ){
-            activity.after(spanReg);
+          
+        if(checkboxes[i].checked == false){
+            totalDiv.after(spanReg);
             spanReg.style.display ='block';
             activity.focus();
-         
+          
+          
+           
         }
-        else{
-            if(e.checked == true){
+        else{ 
             spanReg.style.display ='none';
-            }
+            return true;
         }
     }
-    
-});
+    }
+    validateActivity(checkboxes);
+
 
 //payment validation
-x.addEventListener('submit', function(e){
+
     e.preventDefault();
 
     function validateCard(ccNum){
@@ -333,17 +356,38 @@ x.addEventListener('submit', function(e){
     }
     //call validateCVV function
     validateCVV(cvv);
-});
+
 
 console.log(x);
 console.log(ccNum);
 //reset form after submission 
-
+b = document.querySelector('button');
 
 x.addEventListener('submit', function(e){
-    x.reset();
-
+    if(validateEmail(email) === false){
+        e.preventDefault();
+    }
+    if(validateName(name) === false){
+        e.preventDefault();
+    }
+    if(validateActivity(checkboxes) === false){
+        e.preventDefault();
+    }
+    if(pay.value === 'credit card'){
+        if(validateCard(ccNum) === false){
+            e.preventDefault();
+        }
+        if(validateZip(zip) === false){
+            e.preventDefault();
+        }
+        if(validateCVV(cvv) === false){
+            e.preventDefault();
+        }
+    }
+    x.submit();
 });
-
-
+        
+  
+}); 
+   
 
