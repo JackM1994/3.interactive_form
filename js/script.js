@@ -40,11 +40,11 @@ jobRole.addEventListener('change', function()  {
 //Select a design for t-shirt to categorize color
 function theme (){
     
-    const option = document.createElement('option');
-    option.value = 'select';
-    option.innerHTML = `Please Select a T-Shirt Desgin`;
-    colors.prepend(option);
-    colors.selectedIndex = option.value;
+    const tShirt = document.createElement('option');
+    tShirt.value = 'select';
+    tShirt.innerHTML = `Please Select a T-Shirt Desgin`;
+    colors.prepend(tShirt);
+    colors.selectedIndex = tShirt.value;
     colors[1].style.display='none';
     colors[2].style.display ='none';
     colors[3].style.display ='none';
@@ -120,7 +120,7 @@ function activities(){
         if(checkboxes[i].checked){
             total = total + cost;
         }else{
-            totla = total - cost;
+            total - cost;
         }
         const aD = document.getElementById('totalDiv');
         aD.innerHTML = `<div>Total: $` + total + `</div>`;
@@ -208,6 +208,7 @@ spanMail.classList ='validate';
 spanMail.innerHTML = 'Please enter a valid Email';
 spanMail.style.color ='red';
 spanMail.style.display ='none';
+email.appendChild(spanMail);
 
 
 //Reg Error tag
@@ -216,6 +217,7 @@ spanReg.classList = 'validate';
 spanReg.innerHTML = 'Select at least ONE Activity';
 spanReg.style.color ='red';
 spanReg.style.display ='none';
+activity.appendChild(spanReg);
 
 //Credit Card Number tag
 const spanCredit = document.createElement('span');
@@ -223,13 +225,14 @@ spanCredit.classList ='validate';
 spanCredit.innerHTML = 'Credit Card must contain 13 to 16 digits';
 spanCredit.style.color ='red';
 spanCredit.style.display ='none';
+ccNum.appendChild(spanCredit);
 
 //Zip tag
 const spanZip = document.createElement('span');
 spanZip.classList ='validate';
 spanZip.innerHTML ='Please enter a valid Zip Code';
 spanZip.style.color ='red';
-
+zip.appendChild(spanZip);
 
 //CVV tag
 const spanCVV = document.createElement('span');
@@ -237,157 +240,122 @@ spanCVV.classList ='validate';
 spanCVV.innerHTML = 'Please enter a valid CVV';
 spanCVV.style.color ='red';
 spanCVV.style.display ='none';
+cvv.appendChild(spanCVV);
 
 
 //use an event listener to see if form is valid after submit
 
-let x = document.querySelector('form');
+const formSub = document.querySelector('form');
 
-//name validation
-x.addEventListener('submit', function(e) {
-    
-        e.preventDefault();
-    function validateName(nameInput){
+console.log(formSub);
+
+//name validation       
+function validateName(){
     if(nameInput.value =="" ){   
         nameInput.after(spanName);
         spanName.style.display = 'block';
         nameInput.focus();
-        
-         }
-         else{
-            spanName.style.display ='none';
-             
-         }
-    
-
+        return false;
     }
-    validateName(nameInput);
-
-    e.preventDefault();
-   //email validation
-   
-   function validateEmail(email){
-       const reg = /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;
-
-   if(!reg.test(email.value)){
-    email.after(spanMail);
-    spanMail.style.display ='block';
-    email.focus();
-    
-       
-   }
+    else{
+        spanName.style.display ='none';
+        return true;
+        }
+}
+//email validation
+function validateEmail(){
+    const reg = /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;
+    if(!reg.test(email.value)){
+        email.after(spanMail);
+        spanMail.style.display ='block';
+        email.focus();
+        return false;
+    }
     else {
-        
         spanMail.style.display ='none';
-      
-       
-   }
+        return true;
+    }
 } 
-validateEmail(email);
-
-
+       
 //activity validation
-    function validateActivity(checkboxes){
-    e.preventDefault();
- 
+function validateActivity(){
     for(let i=0; i<checkboxes.length; i++){
-          
         if(checkboxes[i].checked == false){
             totalDiv.after(spanReg);
             spanReg.style.display ='block';
             activity.focus();
           
-          
-           
         }
-        else{ 
+        else if(checkboxes[i].checked == true){ 
             spanReg.style.display ='none';
             return true;
         }
     }
-    }
-    validateActivity(checkboxes);
-
-
+}
 //payment validation
-
-    e.preventDefault();
-
-    function validateCard(ccNum){
-         let cardno = /^[\d]{4}[\d]{4}[\d]{4}[\d]{1,4}$/
-         if(!cardno.test(ccNum.value)){
-            ccNum.after(spanCredit);
-            spanCredit.style.display ='block';
-            ccNum.focus();
-                
-        }
-        else{
-            spanCredit.style.display='none';
-            
-        }
+function validateCard (){
+    let cardno = /^[\d]{4}[\d]{4}[\d]{4}[\d]{1,4}$/;
+    if(!cardno.test(ccNum.value)){
+        ccNum.after(spanCredit);
+        spanCredit.style.display ='block';
+        ccNum.focus();
+        return false;
     }
-    //call validateCard function
-    validateCard(ccNum);
-
-    function validateZip(zip){
-        let zipReg = /^\d{5}(?:[-\s]\d{4})?$/;
-        if(!zipReg.test(zip.value)){
-            zip.after(spanZip);
-            spanZip.style.display ='block';
-            zip.focus();
+    else{
+        spanCredit.style.display='none';
+        return true;
         }
-        else{
-            spanZip.style.display ='none';
+
+} 
+function validateZip(){
+    let zipReg = /^\d{5}(?:[-\s]\d{4})?$/;
+    if(!zipReg.test(zip.value)){
+        zip.after(spanZip);
+        spanZip.style.display ='block';
+        zip.focus();
+        return false;
+    }
+    else{
+        spanZip.style.display ='none';
+        return true;
         }
+}
+function validateCVV(){
+    let cvvReg = /^\d{3}$/;
+    if(!cvvReg.test(cvv.value)){
+        cvv.after(spanCVV);
+        spanCVV.style.display = 'block';
+        cvv.focus();
+        return false;
     }
-    //call validateZip function
-    validateZip(zip);
+    else{
+        spanCVV.style.display ='none';
+        return true;
+    }
+}
 
-    function validateCVV(cvv){
-        let cvvReg = /^\d{3}$/;
-        if(!cvvReg.test(cvv.value)){
-            cvv.after(spanCVV);
-            spanCVV.style.display = 'block';
-            cvv.focus();
-        }
-        else{
-            spanCVV.style.display ='none';
-        }
-    }
-    //call validateCVV function
-    validateCVV(cvv);
-
-
-console.log(x);
-console.log(ccNum);
-//reset form after submission 
-b = document.querySelector('button');
-
-x.addEventListener('submit', function(e){
-    if(validateEmail(email) === false){
-        e.preventDefault();
-    }
-    if(validateName(name) === false){
-        e.preventDefault();
-    }
-    if(validateActivity(checkboxes) === false){
-        e.preventDefault();
-    }
-    if(pay.value === 'credit card'){
-        if(validateCard(ccNum) === false){
+formSub.addEventListener('submit', function(e){
+     e.preventDefault();
+        if(validateName() === false && validateEmail() === false && validateActivity() === false && validateCard() === false && validateZip() === false && validateCVV() === false){
+          if(pay.value === 'credit card' && validateCard() === false && validateZip() === false && validateCVV() === false ){
             e.preventDefault();
+          }
+           
         }
-        if(validateZip(zip) === false){
-            e.preventDefault();
+        else if(validateName() === true && validateEmail() === true && validateActivity() === true){
+           
+           formSub.submit();
+          
+
         }
-        if(validateCVV(cvv) === false){
-            e.preventDefault();
-        }
-    }
-    x.submit();
-});
-        
-  
+        console.log(validateActivity());
+        console.log(validateName());
+        console.log(validateCard());
+        console.log(validateZip());
+        console.log(validateCVV());
+
 }); 
-   
+  
+
+
 
