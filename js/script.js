@@ -335,25 +335,29 @@ function validateCVV(){
 }
 
 formSub.addEventListener('submit', function(e){
-     e.preventDefault();
-        if(validateName() === false && validateEmail() === false && validateActivity() === false && validateCard() === false && validateZip() === false && validateCVV() === false){
-          if(pay.value === 'credit card' && validateCard() === false && validateZip() === false && validateCVV() === false ){
+       
+        if(validateName() === false){
             e.preventDefault();
-          }
-           
+        } 
+        if(validateEmail() === false){
+            e.preventDefault();
+        } 
+        if(validateActivity() === false){
+            e.preventDefault();
         }
-        else if(validateName() === true && validateEmail() === true && validateActivity() === true){
-           
-           formSub.submit();
-          
-
+        if(pay.value === 'credit card'){
+            if(validateCard() === false){ 
+                e.preventDefault();
+            }    
+            if(validateZip() === false){
+                e.preventDefault();
+            }
+            if(validateCVV() === false){
+              e.preventDefault();
+            }
         }
-        console.log(validateActivity());
-        console.log(validateName());
-        console.log(validateCard());
-        console.log(validateZip());
-        console.log(validateCVV());
-
+           
+        
 }); 
   
 
